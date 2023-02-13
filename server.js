@@ -28,7 +28,7 @@ const server = http.createServer((req, res) => {
 				console.log(body, "body");
 
 				const postData = JSON.parse(body);
-				const { NewBlockNumber, oldBlockNumber, oldRPC, newRPC, port, processId } = postData;
+				const { NewBlockNumber, oldBlockNumber, oldRPC, newRPC, port, processId, hardhatProjPath } = postData;
 
 				const { tcp } = await pids(parseInt(port));
         
@@ -48,7 +48,7 @@ const server = http.createServer((req, res) => {
 				console.log("Process killed");
 
 				//head to the hardhat.config.js file
-				const filePath = "./../hardhat-local-node/hardhat.config.js";
+				const filePath = hardhatProjPath+"hardhat.config.js";
 
         ///===========================================================
 				//modify blockNumbe and RPC using data.replace method
@@ -58,7 +58,7 @@ const server = http.createServer((req, res) => {
 				
         ///===========================================================
         //start the server
-        const cwd = "/home/oem/Documents/hardhat-local-node/";
+        const cwd = hardhatProjPath;
         exec('npx hardhat node', { cwd }, (error, stdout, stderr) => {
           if (error) {
             console.error(`exec error: ${error}`);
